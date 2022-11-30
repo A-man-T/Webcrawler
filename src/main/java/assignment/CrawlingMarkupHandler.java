@@ -12,7 +12,17 @@ import org.attoparser.simple.*;
  */
 public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
 
-    public CrawlingMarkupHandler() {}
+    private ArrayList<URL> newLinks;
+    private URL currentURL;
+
+    public CrawlingMarkupHandler() {
+        newLinks = new ArrayList<>();
+    }
+
+
+    public void setCurrentURL(URL currentURL) {
+        this.currentURL = currentURL;
+    }
 
     /**
     * This method returns the complete index that has been crawled thus far when called.
@@ -28,7 +38,9 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
     */
     public List<URL> newURLs() {
         // TODO: Implement this!
-        return new LinkedList<>();
+        ArrayList<URL> newLinks1 = (ArrayList<URL>) newLinks.clone();
+        newLinks.clear();
+        return newLinks1;
     }
 
     /**
@@ -75,6 +87,22 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
     public void handleOpenElement(String elementName, Map<String, String> attributes, int line, int col) {
         // TODO: Implement this.
         System.out.println("Start element: " + elementName);
+        URL toAdd;
+        if (attributes != null) {
+            for (String key : attributes.keySet()) {
+                System.out.println("Key: " + key + ", Value: " + attributes.get(key));
+                if(key.equals("href")) {
+                    try {
+                        toAdd = new URL(currentURL, attributes.get(key));
+                        newLinks.add(toAdd);
+                    } catch (MalformedURLException e) {
+                        //System.err.println("Key: " + key + ", Value: " + attributes.get(key));
+                        System.err.println("HTML code is not valid");
+                    }
+                }
+            }
+        }
+
     }
 
     /**

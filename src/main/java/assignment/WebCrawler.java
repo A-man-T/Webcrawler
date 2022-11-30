@@ -18,6 +18,7 @@ public class WebCrawler {
     * you see fit, as long as it takes URLs as inputs and saves an Index at "index.db".
     */
     public static void main(String[] args) {
+
         // Basic usage information
         if (args.length == 0) {
             System.err.println("Error: No URLs specified.");
@@ -39,16 +40,35 @@ public class WebCrawler {
         ISimpleMarkupParser parser = new SimpleMarkupParser(ParseConfiguration.htmlConfiguration());
         CrawlingMarkupHandler handler = new CrawlingMarkupHandler();
 
+
+        //make a visited hashset to ensure that we don't get into an infinite loop
+        HashSet<URL> visited = new HashSet<URL>();
+
+
+
+        //make a counter to observe the number of sites we are crawling
+        int i = 0;
         // Try to start crawling, adding new URLS as we see them.
+        // add the try catch in such a way that it keeps going even if it shows
         try {
             while (!remaining.isEmpty()) {
+                URL url = remaining.poll();
+                if(visited.contains(url)||url.toString().contains("#")){
+                    continue;
+                }
+                else{
+                    i++;
+                    visited.add(url);
+                }
+                handler.setCurrentURL(url);
                 // Parse the next URL's page
-                parser.parse(new InputStreamReader(remaining.poll().openStream()), handler);
-
-                // Add any new URLs
-                remaining.addAll(handler.newURLs());
+                try {
+                    parser.parse(new InputStreamReader(url.openStream()), handler);
+                    // Add any new URLs
+                    remaining.addAll(handler.newURLs());
+                }catch(Exception e){
+                }
             }
-
             handler.getIndex().save("index.db");
         } catch (Exception e) {
             // Bad exception handling :(
@@ -56,5 +76,6 @@ public class WebCrawler {
             e.printStackTrace();
             System.exit(1);
         }
+        System.out.println(i);
     }
 }
