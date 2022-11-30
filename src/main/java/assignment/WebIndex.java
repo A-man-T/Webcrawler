@@ -15,4 +15,8 @@ public class WebIndex extends Index {
     // TODO: Implement all of this! You may choose your own data structures an internal APIs.
     // You should not need to worry about serialization (just make any other data structures you use
     // here also serializable - the Java standard library data structures already are, for example).
+
+
+
+
 }
