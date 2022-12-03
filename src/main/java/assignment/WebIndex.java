@@ -24,13 +24,18 @@ public class WebIndex extends Index {
    //URL, words and position of words
 
     HashMap<URL, HashMap<String,int[]>> pages = new HashMap<>();
+    HashMap<String,int[]> temp = new HashMap<>();
 
-    public void add(URL url, String word, int location){
+    public void add(URL url, String word, int location) {
         //System.out.println(word);
-        if(1==1)
-            //System.out.println("XD");
-        if(pages.containsKey(url))
-            System.out.println("hello");
+        if (pages.containsKey(url)) {
+
+        }
+        else{
+            pages.put(url,new HashMap<String, int[]>());
+
+        }
+
     }
 
 
