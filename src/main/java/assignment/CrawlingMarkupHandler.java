@@ -15,6 +15,9 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
     private ArrayList<URL> newLinks;
     private URL currentURL;
 
+
+    private WebIndex webIndex;
+
     public CrawlingMarkupHandler() {
         newLinks = new ArrayList<>();
     }
@@ -23,6 +26,11 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
     public void setCurrentURL(URL currentURL) {
         this.currentURL = currentURL;
     }
+
+    public void setWebIndex(WebIndex webIndex) {
+        this.webIndex = webIndex;
+    }
+
 
     /**
     * This method returns the complete index that has been crawled thus far when called.
@@ -127,25 +135,39 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
     public void handleText(char[] ch, int start, int length, int line, int col) {
         // TODO: Implement this.
         System.out.print("Characters:    \"");
+        String currentWord = "";
 
         for(int i = start; i < start + length; i++) {
             // Instead of printing raw whitespace, we're escaping it
             switch(ch[i]) {
+                /*
+                case ' ':
+                    if(!currentWord.equals(""))
+                        webIndex.add(currentURL,currentWord,i);
+                    currentWord = null;
+
+                 */
                 case '\\':
+                    //webIndex.add(currentURL,"\\\\",i);
                     System.out.print("\\\\");
                     break;
                 case '"':
+                    //webIndex.add(currentURL,"\\\"",i);
                     System.out.print("\\\"");
                     break;
                 case '\n':
+                    //webIndex.add(currentURL,"\\n",i);
                     System.out.print("\\n");;
                 case '\r':
+                    //webIndex.add(currentURL,"\\r",i);
                     System.out.print("\\r");
                     break;
                 case '\t':
+                    //webIndex.add(currentURL,"\\t",i);
                     System.out.print("\\t");
                     break;
                 default:
+                    currentWord += ch[i];
                     System.out.print(ch[i]);
                     break;
             }

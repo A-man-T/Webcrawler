@@ -37,8 +37,10 @@ public class WebCrawler {
         }
 
         // Create a parser from the attoparser library, and our handler for markup.
+        WebIndex webIndex = new WebIndex();
         ISimpleMarkupParser parser = new SimpleMarkupParser(ParseConfiguration.htmlConfiguration());
         CrawlingMarkupHandler handler = new CrawlingMarkupHandler();
+        handler.setWebIndex(webIndex);
 
 
         //make a visited hashset to ensure that we don't get into an infinite loop
@@ -65,7 +67,7 @@ public class WebCrawler {
                 try {
                     parser.parse(new InputStreamReader(url.openStream()), handler);
                     // Add any new URLs
-                    remaining.addAll(handler.newURLs());
+                    //remaining.addAll(handler.newURLs());
                 }catch(Exception e){
                 }
             }

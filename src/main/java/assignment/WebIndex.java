@@ -1,4 +1,7 @@
 package assignment;
+import java.net.URL;
+
+import java.util.HashMap;
 
 /**
  * A web-index which efficiently stores information about pages. Serialization is done automatically
@@ -16,6 +19,17 @@ public class WebIndex extends Index {
     // You should not need to worry about serialization (just make any other data structures you use
     // here also serializable - the Java standard library data structures already are, for example).
 
+
+
+   //URL, words and position of words
+
+    HashMap<URL, HashMap<String,int[]>> pages = new HashMap<>();
+
+    public void add(URL url, String word, int location){
+        //System.out.println(word);
+        if(pages.containsKey(url))
+            System.out.println("hello");
+    }
 
 
 
