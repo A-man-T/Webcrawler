@@ -167,7 +167,15 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
                     System.out.print("\\t");
                     break;
                 default:
-                    currentWord += ch[i];
+                    if(ch[i] == ' ') {
+                        if(!currentWord.equals(""))
+                            webIndex.add(currentURL, currentWord, i);
+                        currentWord = "";
+                    }
+                    else {
+                        currentWord += ch[i];
+                    }
+
                     System.out.print(ch[i]);
                     break;
             }

@@ -27,6 +27,8 @@ public class WebIndex extends Index {
 
     public void add(URL url, String word, int location){
         //System.out.println(word);
+        if(1==1)
+            //System.out.println("XD");
         if(pages.containsKey(url))
             System.out.println("hello");
     }
