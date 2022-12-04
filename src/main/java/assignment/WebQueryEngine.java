@@ -46,6 +46,7 @@ public class WebQueryEngine {
         query = query.trim().replaceAll("\\s+", " ").toLowerCase();
         tokenize(query);
         ArrayList<Page>[] results = parseQuery(index.getPages());
+        System.out.println(results[0].size());
 
         // TODO: Implement this!
         return results[0];
@@ -90,6 +91,7 @@ public class WebQueryEngine {
         else if(t instanceof phraseToken){
             String[] phrase = t.toString().split(" ");
             for(Page page:p){
+
                 if(page.getWords().containsKey(phrase[0])&&page.getContentsString().contains(t.toString()))
                     validPages[0].add(page);
                 else{
