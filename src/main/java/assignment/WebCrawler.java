@@ -73,7 +73,7 @@ public class WebCrawler {
                     parser.parse(new InputStreamReader(url.openStream()), handler);
                     i++;
                     // Add any new URLs
-                    //remaining.addAll(handler.newURLs());
+                    remaining.addAll(handler.newURLs());
                 }catch(Exception e){
                     skipped++;
                 }
@@ -87,7 +87,7 @@ public class WebCrawler {
         }
         int toomany =0;
         for(Page p: webIndex.getPages())
-            if(p.words.keySet().size()==0)
+            if(p.getWords().keySet().size()==0)
                 toomany++;
         System.out.println(toomany);
         System.out.println(i);

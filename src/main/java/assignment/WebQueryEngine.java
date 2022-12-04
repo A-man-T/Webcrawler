@@ -42,10 +42,13 @@ public class WebQueryEngine {
     public Collection<Page> query(String query) {
         //trim out the extra spaces in query
         //pass in the keyset of the webindex
+        //make query lowercase
+        query = query.trim().replaceAll("\\s+", " ").toLowerCase();
+        tokenize(query);
+        ArrayList<Page>[] results = parseQuery(index.getPages());
 
-        HashSet<Page> pages = new HashSet<>();
         // TODO: Implement this!
-        return new LinkedList<>();
+        return results[0];
     }
 
     public ArrayList<Page>[] parseQuery(ArrayList<Page> p){
@@ -73,12 +76,26 @@ public class WebQueryEngine {
 
         }
         else if(t instanceof wordToken){
-
+            for(Page page:p){
+                if(page.getWords().containsKey(t.toString()))
+                    validPages[0].add(page);
+                else{
+                    validPages[1].add(page);
+                }
+            }
 
             //validPages[0] = //everything that has the word
             //validPages[1] = //everything that doesn't have the word
         }
         else if(t instanceof phraseToken){
+            String[] phrase = t.toString().split(" ");
+            for(Page page:p){
+                if(page.getWords().containsKey(phrase[0])&&page.getContentsString().contains(t.toString()))
+                    validPages[0].add(page);
+                else{
+                    validPages[1].add(page);
+                }
+            }
             //validPages[0] = //everything that has the phrase
             //validPages[1] = //everything that doesn't have the phrase
         }

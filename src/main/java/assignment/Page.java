@@ -3,6 +3,7 @@ import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * The Page class holds anything that the QueryEngine returns to the server.  The field and method
@@ -14,14 +15,27 @@ import java.util.HashMap;
 public class Page implements Serializable {
     // The URL the page was located at.
     private URL url;
+
+
+    public String getContentsString() {
+        return contents;
+    }
+
+
     private String contents = "";
-    public HashMap<String, ArrayList<Integer>> words;
+
+    public HashMap<String, ArrayList<Integer>> getWords() {
+        return words;
+    }
+
+    private HashMap<String, ArrayList<Integer>> words;
 
 
 
 
 
     public void addContents(String s, int i) {
+        s = s.toLowerCase();
         if(words.containsKey(s)){
             words.get(s).add(i);
         }
