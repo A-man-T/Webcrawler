@@ -50,6 +50,7 @@ public class WebCrawler {
 
         //make a counter to observe the number of sites we are crawling
         int i = 0;
+        int skipped = 0;
         // Try to start crawling, adding new URLS as we see them.
         // add the try catch in such a way that it keeps going even if it shows
         try {
@@ -63,16 +64,18 @@ public class WebCrawler {
                     continue;
                 }
                 else{
-                    i++;
                     visited.add(urlString);
                 }
                 handler.setCurrentURL(url);
                 // Parse the next URL's page
                 try {
+
                     parser.parse(new InputStreamReader(url.openStream()), handler);
+                    i++;
                     // Add any new URLs
                     remaining.addAll(handler.newURLs());
                 }catch(Exception e){
+                    skipped++;
                 }
             }
             handler.getIndex().save("index.db");
@@ -83,5 +86,6 @@ public class WebCrawler {
             System.exit(1);
         }
         System.out.println(i);
+        System.out.println(skipped);
     }
 }
