@@ -14,8 +14,10 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
 
     private ArrayList<URL> newLinks;
     private URL currentURL;
+    private boolean ignore = false;
 
 
+    private Page currentPage;
     private WebIndex webIndex;
 
     public CrawlingMarkupHandler() {
@@ -25,6 +27,7 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
 
     public void setCurrentURL(URL currentURL) {
         this.currentURL = currentURL;
+        this.currentPage = new Page(currentURL);
     }
 
     public void setWebIndex(WebIndex webIndex) {
@@ -36,8 +39,7 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
     * This method returns the complete index that has been crawled thus far when called.
     */
     public Index getIndex() {
-        // TODO: Implement this!
-        return new WebIndex();
+        return webIndex;
     }
 
     /**
@@ -96,6 +98,8 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
         // TODO: Implement this.
         System.out.println("Start element: " + elementName);
         URL toAdd;
+        if(elementName.equals("script")||elementName.equals("style"))
+            ignore = true;
         if (attributes != null) {
             for (String key : attributes.keySet()) {
                 System.out.println("Key: " + key + ", Value: " + attributes.get(key));
@@ -121,6 +125,7 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
     */
     public void handleCloseElement(String elementName, int line, int col) {
         // TODO: Implement this.
+        ignore = false;
         System.out.println("End element:   " + elementName);
     }
 
@@ -137,8 +142,18 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
         System.out.print("Characters:    \"");
         String currentWord = "";
 
+        if(ignore){
+            return;
+        }
+
         for(int i = start; i < start + length; i++) {
             // Instead of printing raw whitespace, we're escaping it
+
+            if(!Character.isLetterOrDigit(ch[i])&&!Character.isWhitespace(ch[i]))
+                continue;
+
+
+
             switch(ch[i]) {
                 /*
                 case ' ':
@@ -169,7 +184,7 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
                 default:
                     if(ch[i] == ' ') {
                         if(!currentWord.equals(""))
-                            webIndex.add(currentURL, currentWord, i);
+                            webIndex.add(currentPage, currentWord, i);
                         currentWord = "";
                     }
                     else {

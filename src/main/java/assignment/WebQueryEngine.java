@@ -9,6 +9,14 @@ import java.util.*;
  * TODO: Implement this!
  */
 public class WebQueryEngine {
+
+    private WebIndex index;
+
+
+    public WebQueryEngine(WebIndex index){
+        this.index = index;
+    }
+
     /**
      * Returns a WebQueryEngine that uses the given Index to construct answers to queries.
      *
@@ -17,7 +25,8 @@ public class WebQueryEngine {
      */
     public static WebQueryEngine fromIndex(WebIndex index) {
         // TODO: Implement this!
-        return new WebQueryEngine();
+        WebQueryEngine newEngine = new WebQueryEngine(index);
+        return newEngine;
     }
 
     /**

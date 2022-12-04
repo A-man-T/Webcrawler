@@ -1,6 +1,7 @@
 package assignment;
 import java.net.URL;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -23,16 +24,25 @@ public class WebIndex extends Index {
 
    //URL, words and position of words
 
-    HashMap<URL, HashMap<String,int[]>> pages = new HashMap<>();
-    HashMap<String,int[]> temp = new HashMap<>();
+    HashMap<Page, HashMap<String, ArrayList<Integer>>> pages = new HashMap<>();
 
-    public void add(URL url, String word, int location) {
+    public void add(Page url, String word, int location) {
         //System.out.println(word);
         if (pages.containsKey(url)) {
 
+            if(pages.get(url).containsKey(word)){
+                pages.get(url).get(word).add(location);
+            }
+            else{
+                pages.get(url).put(word,new ArrayList<Integer>());
+                pages.get(url).get(word).add(location);
+            }
+
         }
         else{
-            pages.put(url,new HashMap<String, int[]>());
+            pages.put(url,new HashMap<String, ArrayList<Integer>>());
+            pages.get(url).put(word,new ArrayList<Integer>());
+            pages.get(url).get(word).add(location);
 
         }
 
