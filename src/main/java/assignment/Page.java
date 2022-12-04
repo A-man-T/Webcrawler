@@ -1,6 +1,7 @@
 package assignment;
 import java.io.Serializable;
 import java.net.URL;
+import java.util.HashMap;
 
 /**
  * The Page class holds anything that the QueryEngine returns to the server.  The field and method
@@ -13,6 +14,9 @@ public class Page implements Serializable {
     // The URL the page was located at.
     private URL url;
     private String contents = "";
+
+
+
 
     public void addContents(String s) {
         contents += s;

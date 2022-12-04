@@ -41,6 +41,7 @@ public class WebQueryEngine {
      */
     public Collection<Page> query(String query) {
         //trim out the extra spaces in query
+        //pass in the keyset of the webindex
 
         HashSet<Page> pages = new HashSet<>();
         // TODO: Implement this!
@@ -72,6 +73,7 @@ public class WebQueryEngine {
 
         }
         else if(t instanceof wordToken){
+
 
             //validPages[0] = //everything that has the word
             //validPages[1] = //everything that doesn't have the word
