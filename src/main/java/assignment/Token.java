@@ -1,16 +1,25 @@
 package assignment;
 
 public class Token {
-    private String word;
+    public String word;
 
-    public Token(){}
     public Token(String s){
         this.word = s;
     }
 
+    public Token(){}
+
+
+
     @Override
     public String toString() {
         return word;
+    }
+}
+
+class wordToken extends Token{
+    public wordToken(String substring) {
+        this.word = substring;
     }
 }
 

@@ -183,8 +183,10 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
                     break;
                 default:
                     if(ch[i] == ' ') {
-                        if(!currentWord.equals(""))
+                        if(!currentWord.equals("")) {
+                            currentPage.addContents(currentWord+" ");
                             webIndex.add(currentPage, currentWord, i);
+                        }
                         currentWord = "";
                     }
                     else {

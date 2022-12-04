@@ -12,6 +12,12 @@ import java.net.URL;
 public class Page implements Serializable {
     // The URL the page was located at.
     private URL url;
+    private String contents = "";
+
+    public void addContents(String s) {
+        contents += s;
+        return;
+    }
 
     /**
      * Creates a Page with a given URL.
