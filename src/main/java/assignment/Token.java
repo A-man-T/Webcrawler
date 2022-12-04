@@ -1,6 +1,18 @@
 package assignment;
 
-public class Token { }
+public class Token {
+    private String word;
+
+    public Token(){}
+    public Token(String s){
+        this.word = s;
+    }
+
+    @Override
+    public String toString() {
+        return word;
+    }
+}
 
 class AndToken extends Token {
     @Override
@@ -12,18 +24,18 @@ class AndToken extends Token {
 class OrToken extends Token {
     @Override
     public String toString() {
-        return "AndToken";
+        return "OrToken";
     }
 }
 class LeftParenToken extends Token {
     @Override
     public String toString() {
-        return "AndToken";
+        return "(";
     }
 }
 class RightParenToken extends Token {
     @Override
     public String toString() {
-        return "AndToken";
+        return ")";
     }
 }
