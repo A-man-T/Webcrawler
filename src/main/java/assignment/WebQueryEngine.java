@@ -40,12 +40,13 @@ public class WebQueryEngine {
      * @return A collection of web pages satisfying the query.
      */
     public Collection<Page> query(String query) {
+        //trim out the extra spaces in query
 
         HashSet<Page> pages = new HashSet<>();
         // TODO: Implement this!
         return new LinkedList<>();
     }
-/*
+
     public ArrayList<Page>[] parseQuery(ArrayList<Page> p){
         ArrayList<Page>[] validPages = new ArrayList[2];
         Token t = tokens.poll();
@@ -71,15 +72,22 @@ public class WebQueryEngine {
 
         }
         else if(t instanceof wordToken){
-            validPages[0] = //everything that has the word
-            validPages[1]
+
+            //validPages[0] = //everything that has the word
+            //validPages[1] = //everything that doesn't have the word
+        }
+        else if(t instanceof phraseToken){
+            //validPages[0] = //everything that has the word
+            //validPages[1] = //everything that doesn't have the word
+        }
+        else{
+            return null;
         }
 
-
-
+        return validPages;
     }
 
- */
+
 
 
 
@@ -87,6 +95,7 @@ public class WebQueryEngine {
     public void tokenize(String stream) {
         tokens.clear();
         int i = 0;
+
         if (stream.isBlank())
             return;
 
@@ -112,7 +121,10 @@ public class WebQueryEngine {
 
                 while (j + 1 < stream.length()&&(stream.charAt(j+1)!=')')) {
                     if (stream.charAt(j) == ' ')
-                        break;
+                        if(Character.isLetterOrDigit(stream.charAt(j+1)))
+                            j++;
+                        else
+                            break;
                     if (stream.charAt(j) == '&' || stream.charAt(j) == '|' || stream.charAt(j) == '(' || stream.charAt(j) == ')') {
                         j--;
                         break;
@@ -120,8 +132,11 @@ public class WebQueryEngine {
                         j++;
                     }
                 }
-
-                tokens.add(new wordToken(stream.substring(i, j + 1).trim()));
+                if(stream.substring(i, j + 1).trim().contains(" "))
+                    tokens.add(new phraseToken(stream.substring(i, j + 1).trim()));
+                else{
+                    tokens.add(new wordToken(stream.substring(i, j + 1).trim()));
+                }
                 i=j;
             }
             i++;

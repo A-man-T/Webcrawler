@@ -22,6 +22,11 @@ class wordToken extends Token{
         this.word = substring;
     }
 }
+class phraseToken extends Token{
+    public phraseToken(String substring) {
+        this.word = substring;
+    }
+}
 
 class AndToken extends Token {
     @Override
