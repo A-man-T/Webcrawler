@@ -1,6 +1,7 @@
 package assignment;
 import java.io.Serializable;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -14,12 +15,22 @@ public class Page implements Serializable {
     // The URL the page was located at.
     private URL url;
     private String contents = "";
+    public HashMap<String, ArrayList<Integer>> words;
 
 
 
 
-    public void addContents(String s) {
+
+    public void addContents(String s, int i) {
+        if(words.containsKey(s)){
+            words.get(s).add(i);
+        }
+        else{
+            words.put(s,new ArrayList<Integer>());
+            words.get(s).add(i);
+        }
         contents += s;
+        contents += " ";
         return;
     }
 
@@ -29,6 +40,7 @@ public class Page implements Serializable {
      */
     public Page(URL url) {
         this.url = url;
+        this.words = new HashMap<>();
     }
 
     /**

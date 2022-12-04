@@ -79,8 +79,8 @@ public class WebQueryEngine {
             //validPages[1] = //everything that doesn't have the word
         }
         else if(t instanceof phraseToken){
-            //validPages[0] = //everything that has the word
-            //validPages[1] = //everything that doesn't have the word
+            //validPages[0] = //everything that has the phrase
+            //validPages[1] = //everything that doesn't have the phrase
         }
         else{
             return null;

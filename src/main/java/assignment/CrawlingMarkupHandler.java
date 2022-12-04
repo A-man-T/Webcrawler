@@ -16,7 +16,7 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
     private URL currentURL;
     private boolean ignore = false;
 
-
+    private boolean madePage;
     private Page currentPage;
     private WebIndex webIndex;
 
@@ -28,6 +28,7 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
     public void setCurrentURL(URL currentURL) {
         this.currentURL = currentURL;
         this.currentPage = new Page(currentURL);
+        madePage = false;
     }
 
     public void setWebIndex(WebIndex webIndex) {
@@ -71,6 +72,7 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
     */
     public void handleDocumentStart(long startTimeNanos, int line, int col) {
         // TODO: Implement this.
+
         System.out.println("Start of document");
     }
 
@@ -142,6 +144,8 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
         System.out.print("Characters:    \"");
         String currentWord = "";
 
+
+
         if(ignore){
             return;
         }
@@ -158,34 +162,38 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
                 /*
                 case ' ':
                     if(!currentWord.equals(""))
-                        webIndex.add(currentURL,currentWord,i);
+
                     currentWord = null;
 
                  */
                 case '\\':
-                    //webIndex.add(currentURL,"\\\\",i);
+
                     System.out.print("\\\\");
                     break;
                 case '"':
-                    //webIndex.add(currentURL,"\\\"",i);
+
                     System.out.print("\\\"");
                     break;
                 case '\n':
-                    //webIndex.add(currentURL,"\\n",i);
+
                     System.out.print("\\n");;
                 case '\r':
-                    //webIndex.add(currentURL,"\\r",i);
+
                     System.out.print("\\r");
                     break;
                 case '\t':
-                    //webIndex.add(currentURL,"\\t",i);
+
                     System.out.print("\\t");
                     break;
                 default:
                     if(ch[i] == ' ') {
                         if(!currentWord.equals("")) {
-                            currentPage.addContents(currentWord+" ");
-                            webIndex.add(currentPage, currentWord, i);
+                            currentPage.addContents(currentWord,i);
+                            if(!madePage){
+                                webIndex.add(currentPage);
+                                madePage = true;
+                            }
+                            //webIndex.add(currentPage, currentWord, i);
                         }
                         currentWord = "";
                     }
@@ -198,8 +206,12 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
             }
         }
         if(!currentWord.equals("")){
-            currentPage.addContents(currentWord+" ");
-            webIndex.add(currentPage, currentWord, start+length);
+            currentPage.addContents(currentWord,start+length);
+            if(!madePage){
+                webIndex.add(currentPage);
+                madePage = true;
+            }
+            //webIndex.add(currentPage, currentWord, start+length);
         }
 
         System.out.print("\"\n");

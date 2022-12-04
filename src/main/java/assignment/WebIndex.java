@@ -3,6 +3,7 @@ import java.net.URL;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * A web-index which efficiently stores information about pages. Serialization is done automatically
@@ -24,6 +25,21 @@ public class WebIndex extends Index {
 
    //URL, words and position of words
 
+
+    public ArrayList<Page> getPages() {
+        return pages;
+    }
+
+    private ArrayList<Page> pages;
+    public WebIndex(){
+        pages = new ArrayList<>();
+    }
+
+    public void add(Page url) {
+        pages.add(url);
+    }
+
+    /*
     HashMap<Page, HashMap<String, ArrayList<Integer>>> pages = new HashMap<>();
 
     public void add(Page url, String word, int location) {
@@ -47,6 +63,8 @@ public class WebIndex extends Index {
         }
 
     }
+
+     */
 
 
 
