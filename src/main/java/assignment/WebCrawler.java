@@ -73,7 +73,7 @@ public class WebCrawler {
                     parser.parse(new InputStreamReader(url.openStream()), handler);
                     i++;
                     // Add any new URLs
-                    remaining.addAll(handler.newURLs());
+                    //remaining.addAll(handler.newURLs());
                 }catch(Exception e){
                     skipped++;
                 }

@@ -197,6 +197,10 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
                     break;
             }
         }
+        if(!currentWord.equals("")){
+            currentPage.addContents(currentWord+" ");
+            webIndex.add(currentPage, currentWord, start+length);
+        }
 
         System.out.print("\"\n");
     }
