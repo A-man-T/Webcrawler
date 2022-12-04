@@ -44,7 +44,7 @@ public class WebCrawler {
 
 
         //make a visited hashset to ensure that we don't get into an infinite loop
-        HashSet<URL> visited = new HashSet<URL>();
+        HashSet<String> visited = new HashSet<String>();
 
 
 
@@ -55,12 +55,16 @@ public class WebCrawler {
         try {
             while (!remaining.isEmpty()) {
                 URL url = remaining.poll();
-                if(visited.contains(url)||url.toString().contains("#")){
+                String urlString = url.toString();
+                if(urlString.contains("#"))
+                    urlString = urlString.substring(0, urlString.indexOf("#"));
+
+                if(visited.contains(urlString)){
                     continue;
                 }
                 else{
                     i++;
-                    visited.add(url);
+                    visited.add(urlString);
                 }
                 handler.setCurrentURL(url);
                 // Parse the next URL's page
