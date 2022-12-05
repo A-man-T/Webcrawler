@@ -12,7 +12,7 @@ import java.util.*;
 public class WebQueryEngine {
 
     private WebIndex index;
-    public Queue<Token> tokens = new LinkedList<>();
+    public LinkedList<Token> tokens = new LinkedList<>();
 
 
 
@@ -46,6 +46,8 @@ public class WebQueryEngine {
         query = query.trim().replaceAll("\\s+", " ").toLowerCase();
         tokenize(query);
         ArrayList<Page>[] results = parseQuery(index.getPages());
+        while (!tokens.isEmpty())
+             results = parseQuery(results[0]);
         System.out.println(results[0].size());
 
         // TODO: Implement this!
@@ -153,10 +155,30 @@ public class WebQueryEngine {
                         j++;
                     }
                 }
-                if(stream.substring(i, j + 1).trim().contains(" "))
-                    tokens.add(new phraseToken(stream.substring(i, j + 1).trim()));
+                String trim;
+                try {
+                     trim = stream.substring(i, j + 1).trim();
+                }
+                catch(Exception e){
+                     trim = stream.substring(i, j).trim();
+                }
+
+                if(trim.contains("\""))
+                    tokens.add(new phraseToken(trim));
+
+
+                else if (trim.contains(" ")){
+                    String temp[] = trim.split(" ");
+                    for(String s:temp) {
+                        tokens.add(new wordToken(s));
+                        //tokens.add(new AndToken());
+                    }
+                    //tokens.removeLast();
+                }
+
+
                 else{
-                    tokens.add(new wordToken(stream.substring(i, j + 1).trim()));
+                    tokens.add(new wordToken(trim));
                 }
                 i=j;
             }
