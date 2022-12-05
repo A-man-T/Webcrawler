@@ -1,0 +1,70 @@
+(should & quiet)
+(a | !a)
+a b
+hillsborough
+officials (hello & john) senator
+officials (hello | john) senator
+dog
+whitewater
+hello my friend
+(pork|pig) president
+life is hard
+apple
+craft
+((craft&recipients)           | pitch)
+(a & !a)
+president available "dole kemp" !computer (actual | are)
+cRaFT
+!dole
+"dole kemp"
+(dole & !kemp)
+(dole & !kemp) "medicare and"
+(dole & !kemp) "medicare and medicaid"
+"medicare and medicaid"
+"""Ensure that this MIME mapping is needed
+            for your Web server before adding it to the list"""
+"Crime Bill adds 463 police officers to "
+((((((((((((a | b) | c) | d) | e) | f) | g) | h) | i) | j) | k) | l) & m)
+1001
+----0---- 1---------
+((solve | hard) & !done)
+!done & (done | !done)
+committee
+committees
+by !the
+solve this question
+aids !hiv
+(("internet is a" | danger) the) (!hello | !hi)
+("internet is a" | danger) the (!hello | !hi)
+!the !a !wallpaper !this !clinton !not
+(((who the) | that) & "i don't understand) | ("understand" (!get | (the and now")) yes)
+((((who & the) | that) & "i dont understand") | "understand") (!get | "the and now") yes
+"crime bill adds"
+danger
+"internet is a"
+!internet
+!the
+(clinton & gore)
+((clinton & gore) & (platform | vote))
+(turing | scholar)
+(murder | hatred)
+a the and (Clinton | Dole) economy (b | (recession | (stocks & low)))
+(b | (recession | (stocks & low)))
+a b c d
+a b c d e f g h i j k l m n o p q r s t u v w x y z
+hit it
+violence is not the answer
+"BIll             cLinToN" economy
+president
+( a | b )
+(a|b)
+"American Standard"
+"American Standard Code"
+15 percent
+"15 percent"
+cg96
+700 SW Jackson Street
+lesbian
+dying
+(workhorse | showhorse)
+( "they are" & clinton )

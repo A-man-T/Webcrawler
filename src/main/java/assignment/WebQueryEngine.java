@@ -134,6 +134,16 @@ public class WebQueryEngine {
                 tokens.add(new LeftParenToken());
             else if (c == ')')
                 tokens.add(new RightParenToken());
+            else if (c=='"'){
+                int start = i;
+                i++;
+                c = stream.charAt(i);
+                 while(c!='"'){
+                    i++;
+                    c = stream.charAt(i);
+                }
+                 tokens.add(new phraseToken(stream.substring(start+1,i)));
+            }
             else {
                 int j = i;
                 /*
@@ -148,7 +158,7 @@ public class WebQueryEngine {
                             j++;
                         else
                             break;
-                    if (stream.charAt(j) == '&' || stream.charAt(j) == '|' || stream.charAt(j) == '(' || stream.charAt(j) == ')') {
+                    if (stream.charAt(j) == '&' || stream.charAt(j) == '|' || stream.charAt(j) == '(' || stream.charAt(j) == ')'||stream.charAt(j) == '"') {
                         j--;
                         break;
                     } else {
@@ -163,11 +173,17 @@ public class WebQueryEngine {
                      trim = stream.substring(i, j).trim();
                 }
 
-                if(trim.contains("\""))
-                    tokens.add(new phraseToken(trim));
+                /*
+                if(trim.contains("\"")) {
+                    trim = trim.replaceAll("\"", "");
+                    if (!(trim.isBlank()))
+                        tokens.add(new phraseToken(trim));
+                }
 
+                 */
 
-                else if (trim.contains(" ")){
+//removed the else if here
+                 if (trim.contains(" ")){
                     String temp[] = trim.split(" ");
                     for(String s:temp) {
                         tokens.add(new wordToken(s));

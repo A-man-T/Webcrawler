@@ -153,8 +153,14 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
         for(int i = start; i < start + length; i++) {
             // Instead of printing raw whitespace, we're escaping it
 
+
+            /*
             if(!Character.isLetterOrDigit(ch[i])&&!Character.isWhitespace(ch[i]))
                 continue;
+
+             */
+
+
 
 
 
@@ -186,7 +192,7 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
                     System.out.print("\\t");
                     break;
                 default:
-                    if(ch[i] == ' ') {
+                    if(!Character.isLetterOrDigit(ch[i])) {
                         if(!currentWord.equals("")) {
                             currentPage.addContents(currentWord,i);
                             if(!madePage){
