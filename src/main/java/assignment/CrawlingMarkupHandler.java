@@ -86,6 +86,7 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
     */
     public void handleDocumentEnd(long endTimeNanos, long totalTimeNanos, int line, int col) {
         // TODO: Implement this.
+        webIndex.add(currentPage);
         System.out.println("End of document");
     }
 
@@ -195,10 +196,14 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
                     if(!Character.isLetterOrDigit(ch[i])) {
                         if(!currentWord.equals("")) {
                             currentPage.addContents(currentWord,i);
+                            //current working
+                            /*
                             if(!madePage){
                                 webIndex.add(currentPage);
                                 madePage = true;
                             }
+
+                             */
                             //webIndex.add(currentPage, currentWord, i);
                         }
                         currentWord = "";
@@ -213,10 +218,14 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
         }
         if(!currentWord.equals("")){
             currentPage.addContents(currentWord,start+length);
+            //current working
+            /*
             if(!madePage){
                 webIndex.add(currentPage);
                 madePage = true;
             }
+
+             */
             //webIndex.add(currentPage, currentWord, start+length);
         }
 

@@ -1,4 +1,5 @@
 (should & quiet)
+(a | !a)
 hillsborough
 officials (hello & john) senator
 officials (hello | john) senator
@@ -41,6 +42,7 @@ violence is not the answer
 "American Standard Code"
 "15 percent"
 700 SW Jackson Street
+lesbian
 dying
 (workhorse | showhorse)
 ( "they are" & clinton )

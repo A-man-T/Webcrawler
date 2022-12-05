@@ -57,6 +57,10 @@ public class WebCrawler {
             while (!remaining.isEmpty()) {
                 URL url = remaining.poll();
                 String urlString = url.toString();
+
+                if(urlString.contains("?"))
+                    urlString = urlString.substring(0, urlString.indexOf("?"));
+
                 if(urlString.contains("#"))
                     urlString = urlString.substring(0, urlString.indexOf("#"));
 
