@@ -103,6 +103,18 @@ public class WebQueryEngine {
             //validPages[0] = //everything that has the phrase
             //validPages[1] = //everything that doesn't have the phrase
         }
+
+        else if(t instanceof notToken){
+            t = tokens.poll();
+            for(Page page:p){
+                if(page.getWords().containsKey(t.toString()))
+                    validPages[1].add(page);
+                else{
+                    validPages[0].add(page);
+                }
+            }
+        }
+
         else{
             return null;
         }
@@ -134,6 +146,8 @@ public class WebQueryEngine {
                 tokens.add(new LeftParenToken());
             else if (c == ')')
                 tokens.add(new RightParenToken());
+            else if (c == '!')
+                tokens.add(new notToken());
             else if (c=='"'){
                 int start = i;
                 i++;
@@ -158,7 +172,7 @@ public class WebQueryEngine {
                             j++;
                         else
                             break;
-                    if (stream.charAt(j) == '&' || stream.charAt(j) == '|' || stream.charAt(j) == '(' || stream.charAt(j) == ')'||stream.charAt(j) == '"') {
+                    if (stream.charAt(j) == '&' || stream.charAt(j) == '|' || stream.charAt(j) == '(' || stream.charAt(j) == ')'||stream.charAt(j) == '"'||stream.charAt(j) == '!') {
                         j--;
                         break;
                     } else {

@@ -28,6 +28,15 @@ class phraseToken extends Token{
     }
 }
 
+class notToken extends Token{
+    @Override
+    public String toString() {
+        return "notToken";
+    }
+}
+
+
+
 class AndToken extends Token {
     @Override
     public String toString() {
