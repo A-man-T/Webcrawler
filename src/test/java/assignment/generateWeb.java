@@ -40,6 +40,35 @@ public class generateWeb {
 
 
     @Test
+    public void generateStyleScript()throws ClassNotFoundException, IOException{
+        int i = 0;
+        String file = i+".txt";
+        BufferedWriter bw = null;
+        while(i<numberOfFiles) {
+            try {
+                i++;
+                file = i+ ".txt";
+                bw = new BufferedWriter(new FileWriter("./testWeb/" + file));
+                bw.write("<html><head><style>New Page</style></head><script><p>This is Body</p></script></html>");
+                bw.write("<a href=\""+(i+1)+".txt\">This is a link</a>");
+                bw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+        WebCrawler.main(new String[] {"file:/Users/amantewari/Turing/prog7/testWeb/1.txt"});
+        WebQueryEngine wqe = WebQueryEngine.fromIndex((WebIndex) Index.load("index.db"));
+        String query = "a";
+        //assertEquals(wqe.query(query).size(),numberOfFiles);
+        assertEquals(wqe.query("new").size(),0);
+    }
+
+
+
+
+    @Test
     public void checkTextOnlyWebGraph() throws ClassNotFoundException, IOException {
         WebCrawler.main(new String[] {"file:/Users/amantewari/Turing/prog7/testWeb/1.txt"});
         WebQueryEngine wqe = WebQueryEngine.fromIndex((WebIndex) Index.load("index.db"));
