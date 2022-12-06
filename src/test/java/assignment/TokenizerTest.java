@@ -23,6 +23,9 @@ class TokenizerTest {
             String s = scan.nextLine();
             System.out.println(s);
             eng.tokenize(s);
+            for(Token t:one)
+                System.out.print(t+" ");
+            System.out.println();
         }
     }
 

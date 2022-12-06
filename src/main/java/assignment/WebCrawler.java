@@ -94,7 +94,7 @@ public class WebCrawler {
             if(p.getWords().keySet().size()==0)
                 toomany++;
         //System.out.println(toomany);
-        System.out.println(i);
+        //System.out.println(i);
         //System.out.println(skipped);
     }
 }
