@@ -46,7 +46,6 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
     * should be cleared.
     */
     public List<URL> newURLs() {
-        // TODO: Implement this!
         ArrayList<URL> newLinks1 = (ArrayList<URL>) newLinks.clone();
         newLinks.clear();
         return newLinks1;
