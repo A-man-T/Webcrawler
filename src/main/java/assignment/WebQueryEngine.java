@@ -171,7 +171,7 @@ public class WebQueryEngine {
                         i++;
                         c = stream.charAt(i);
                     }
-                    tokens.add(new phraseToken(stream.substring(start + 1, i)));
+                    tokens.add(new phraseToken(stream.substring(start + 1, i).trim()));
                 } else {
                     int j = i;
                 /*
