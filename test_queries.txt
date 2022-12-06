@@ -21,7 +21,7 @@ cRaFT
 (dole & !kemp) "medicare and"
 (dole & !kemp) "medicare and medicaid"
 "medicare and medicaid"
-"""Ensure that this MIME mapping is needed for your Web server before adding it to the list"""
+"Ensure that this MIME mapping is needed for your Web server before adding it to the list"
 "Crime Bill adds 463 police officers to "
 (((a | b) | (c | d) | (e | f) | (g | h) | (i | j) | (k | l)) m)
 ((((((((((((a | b) | c) | d) | e) | f) | g) | h) | i) | j) | k) | l) & m)
@@ -37,7 +37,6 @@ aids !hiv
 (("internet is a" | danger) the) (!hello | !hi)
 ("internet is a" | danger) the (!hello | !hi)
 !the !a !wallpaper !this !clinton !not
-(((who the) | that) & "i don't understand) | ("understand" (!get | (the and now")) yes)
 ((((who & the) | that) & "i dont understand") | "understand") (!get | "the and now") yes
 "crime bill adds"
 danger
@@ -70,3 +69,4 @@ dying
 (workhorse | showhorse)
 ( "they are" & clinton )
 (((the & president) & clinton) & "dole kemp") 96
+secretary

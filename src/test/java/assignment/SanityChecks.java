@@ -32,4 +32,33 @@ public class SanityChecks {
             }
         }
     }
+
+
+    @Test
+    public void sanityAllsChecks() throws ClassNotFoundException, IOException {
+        WebCrawler.main(new String[] {"file:/Users/amantewari/Turing/prog7/president96/index.html"});
+        WebQueryEngine wqe = WebQueryEngine.fromIndex((WebIndex) Index.load("index.db"));
+        Scanner scan = new Scanner(new File("test_queries.txt"));
+        Scanner answerScanner = new Scanner(new File("answers.txt"));
+        System.out.println("Start Here:            ");
+        ArrayList<Integer> results = new ArrayList<>();
+
+        int i=1;
+        while(scan.hasNext()) {
+            String query = scan.nextLine();
+            try {
+                assertEquals(wqe.query(query).size(),answerScanner.nextInt());
+                System.out.print(i+":   ");
+                i++;
+                //results.add(wqe.query(query).size());
+            }
+            catch(Exception e){
+                System.err.print("failed on this one");
+                System.err.println(query);
+            }
+        }
+    }
+
+
+
 }

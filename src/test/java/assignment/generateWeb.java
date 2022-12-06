@@ -1,5 +1,6 @@
 package assignment;
 
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedWriter;
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class generateWeb {
 
-    int numberOfFiles = 10000;
+    int numberOfFiles = 100000;
     @Test
     public void generateTextOnlyWebGraph(){
         int i = 0;
@@ -34,31 +35,62 @@ public class generateWeb {
         }
     }
 
+
+
     @Test
     public void checkTextOnlyWebGraph() throws ClassNotFoundException, IOException {
         WebCrawler.main(new String[] {"file:/Users/amantewari/Turing/prog7/testWeb/1.txt"});
         WebQueryEngine wqe = WebQueryEngine.fromIndex((WebIndex) Index.load("index.db"));
         String query = "a";
         assertEquals(wqe.query(query).size(),numberOfFiles);
-        /*
-        Scanner scan = new Scanner(new File("test_queries_green.txt"));
-        Scanner answerScanner = new Scanner(new File("green_answers.txt"));
-        System.out.println("Start Here:            ");
-        ArrayList<Integer> results = new ArrayList<>();
-        while(scan.hasNext()) {
-            String query = scan.nextLine();
-            try {
-                assertEquals(wqe.query(query).size(),answerScanner.nextInt());
-                //results.add(wqe.query(query).size());
-            }
-            catch(Exception e){
-                System.err.print("failed on this one");
-                System.err.println(query);
-            }
-            }
-
-         */
+        assertEquals(wqe.query("1").size(),0);
 
     }
+
+    @RepeatedTest(1)
+    public void generateAndTestForests() throws ClassNotFoundException,IOException{
+        int i = 0;
+        String file = i+".txt";
+        BufferedWriter bw = null;
+        int random = 0;
+
+        while(random<5&&i<numberOfFiles) {
+            try {
+                random = (int) (Math.random()*6);
+                i++;
+                file = i+ ".txt";
+                bw = new BufferedWriter(new FileWriter("./testWeb/" + file));
+                bw.write("<html><head><title>New Page</title></head><body><p>This is Body</p></body></html>");
+                bw.write("<a href=\""+(i+1)+".txt\">This is a link</a>");
+                bw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        int pages =i+1;
+
+        while(i<numberOfFiles) {
+            try {
+                i++;
+                file = i+ ".txt";
+                bw = new BufferedWriter(new FileWriter("./testWeb/" + file));
+                bw.write("<html><head><title>New Page</title></head><body><p>This is Body</p></body></html>");
+                bw.write("<a href=\""+(-1)+".txt\">This is a link</a>");
+                bw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        WebCrawler.main(new String[] {"file:/Users/amantewari/Turing/prog7/testWeb/1.txt"});
+        WebQueryEngine wqe = WebQueryEngine.fromIndex((WebIndex) Index.load("index.db"));
+        assertEquals(wqe.query("(a|!a)").size(),pages);
+
+    }
+
+
+
+
+
 
 }
