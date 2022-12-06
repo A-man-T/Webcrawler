@@ -89,7 +89,8 @@ public class WebQueryEngine {
                validPages[1].addAll(right[1]);
            }
            else{
-               //if we hit an and, everything that works for our previous correct pages is added into our search space,
+               //if we hit an and whether or not one is actually present (implied and or explicit and),
+               // everything that works for our previous correct pages is added into our search space,
                // and we search the search space to sort the Pages in their proper place
                validPages[1].addAll(left[1]);
                ArrayList<Page>[] right = parseQuery(left[0]);
