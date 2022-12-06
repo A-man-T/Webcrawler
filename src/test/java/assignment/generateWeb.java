@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class generateWeb {
 
-    int numberOfFiles = 100000;
+    int numberOfFiles = 1000;
     @Test
     public void generateTextOnlyWebGraph(){
         int i = 0;
