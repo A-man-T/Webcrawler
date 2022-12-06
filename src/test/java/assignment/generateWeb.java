@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class generateWeb {
 
-    int numberOfFiles = 10000;
+    int numberOfFiles = 10;
     @Test
     public void generateTextOnlyWebGraph(){
         int i = 0;
@@ -78,7 +78,7 @@ public class generateWeb {
 
     }
 
-    @RepeatedTest(10)
+    @RepeatedTest(1)
     public void generateAndTestForests() throws ClassNotFoundException,IOException{
         int i = 0;
         String file = i+".txt";
@@ -168,7 +168,7 @@ public class generateWeb {
         return sb.toString();
     }
 
-    @RepeatedTest(10)
+    @RepeatedTest(1)
     public void generateAndTestCycle() throws ClassNotFoundException,IOException {
         int i = 0;
         String file = i + ".txt";

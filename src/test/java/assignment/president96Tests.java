@@ -13,6 +13,12 @@ public class president96Tests{
 
 
     @Test
+    public void loadFileTime() throws ClassNotFoundException, IOException {
+        //WebCrawler.main(new String[] {"file:/Users/amantewari/Turing/prog7/president96/index.html"});
+        WebQueryEngine wqe = WebQueryEngine.fromIndex((WebIndex) Index.load("index.db"));
+    }
+
+    @Test
     public void sanityGreenChecks() throws ClassNotFoundException, IOException {
         WebCrawler.main(new String[] {"file:/Users/amantewari/Turing/prog7/president96/index.html"});
         WebQueryEngine wqe = WebQueryEngine.fromIndex((WebIndex) Index.load("index.db"));
