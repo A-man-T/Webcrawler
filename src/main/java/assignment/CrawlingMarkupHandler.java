@@ -148,8 +148,9 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
                 if(!currentWord.equals("")) {
                     //if currentWord is not blank and we reached a non-alphanumeric character
                     currentPage.addContents(currentWord);
+                    currentWord = "";
                 }
-                currentWord = "";
+
             }
             else {
                 currentWord += ch[i];
