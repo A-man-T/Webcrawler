@@ -55,10 +55,15 @@ public class WebQueryEngine {
             System.err.println("Invalid Query");
             return new ArrayList<>();
         }
-        //System.out.println(results[0].size());
+        System.out.println(results[0].size());
 
         // TODO: Implement this!
-        return results[0];
+        try {
+            return results[0];
+        }
+        catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 
     public ArrayList<Page>[] parseQuery(ArrayList<Page> p){
@@ -141,58 +146,58 @@ public class WebQueryEngine {
         if (stream.isBlank())
             return;
 
-        while (i < stream.length()) {
-            while (Character.isWhitespace(stream.charAt(i)))
-                i++;
-            char c = stream.charAt(i);
-            if (c == '&')
-                tokens.add(new AndToken());
-            else if (c == '|')
-                tokens.add(new OrToken());
-            else if (c == '(')
-                tokens.add(new LeftParenToken());
-            else if (c == ')')
-                tokens.add(new RightParenToken());
-            else if (c == '!')
-                tokens.add(new notToken());
-            else if (c=='"'){
-                int start = i;
-                i++;
-                c = stream.charAt(i);
-                 while(c!='"'){
+        try {
+
+            while (i < stream.length()) {
+                while (Character.isWhitespace(stream.charAt(i)))
+                    i++;
+                char c = stream.charAt(i);
+                if (c == '&')
+                    tokens.add(new AndToken());
+                else if (c == '|')
+                    tokens.add(new OrToken());
+                else if (c == '(')
+                    tokens.add(new LeftParenToken());
+                else if (c == ')')
+                    tokens.add(new RightParenToken());
+                else if (c == '!')
+                    tokens.add(new notToken());
+                else if (c == '"') {
+                    int start = i;
                     i++;
                     c = stream.charAt(i);
-                }
-                 tokens.add(new phraseToken(stream.substring(start+1,i)));
-            }
-            else {
-                int j = i;
+                    while (c != '"') {
+                        i++;
+                        c = stream.charAt(i);
+                    }
+                    tokens.add(new phraseToken(stream.substring(start + 1, i)));
+                } else {
+                    int j = i;
                 /*
                 read until blank or operator;
                 rewind the stream one character if it was an operator
                 return a Token that contains a reference to the word;
                  */
 
-                while (j + 1 < stream.length()&&(stream.charAt(j+1)!=')')) {
-                    if (stream.charAt(j) == ' ')
-                        if(Character.isLetterOrDigit(stream.charAt(j+1)))
-                            j++;
-                        else
+                    while (j + 1 < stream.length() && (stream.charAt(j + 1) != ')')) {
+                        if (stream.charAt(j) == ' ')
+                            if (Character.isLetterOrDigit(stream.charAt(j + 1)))
+                                j++;
+                            else
+                                break;
+                        if (stream.charAt(j) == '&' || stream.charAt(j) == '|' || stream.charAt(j) == '(' || stream.charAt(j) == ')' || stream.charAt(j) == '"' || stream.charAt(j) == '!') {
+                            j--;
                             break;
-                    if (stream.charAt(j) == '&' || stream.charAt(j) == '|' || stream.charAt(j) == '(' || stream.charAt(j) == ')'||stream.charAt(j) == '"'||stream.charAt(j) == '!') {
-                        j--;
-                        break;
-                    } else {
-                        j++;
+                        } else {
+                            j++;
+                        }
                     }
-                }
-                String trim;
-                try {
-                     trim = stream.substring(i, j + 1).trim();
-                }
-                catch(Exception e){
-                     trim = stream.substring(i, j).trim();
-                }
+                    String trim;
+                    try {
+                        trim = stream.substring(i, j + 1).trim();
+                    } catch (Exception e) {
+                        trim = stream.substring(i, j).trim();
+                    }
 
                 /*
                 if(trim.contains("\"")) {
@@ -204,24 +209,26 @@ public class WebQueryEngine {
                  */
 
 //removed the else if here
-                 if (trim.contains(" ")){
-                    String temp[] = trim.split(" ");
-                    for(String s:temp) {
-                        tokens.add(new wordToken(s));
-                        //tokens.add(new AndToken());
+                    if (trim.contains(" ")) {
+                        String temp[] = trim.split(" ");
+                        for (String s : temp) {
+                            tokens.add(new wordToken(s));
+                            //tokens.add(new AndToken());
+                        }
+                        //tokens.removeLast();
+                    } else {
+                        tokens.add(new wordToken(trim));
                     }
-                    //tokens.removeLast();
+                    i = j;
                 }
-
-
-                else{
-                    tokens.add(new wordToken(trim));
-                }
-                i=j;
+                i++;
             }
-            i++;
+        }
+        catch (Exception e) {
+            return;
         }
     }
+
 
 
 
