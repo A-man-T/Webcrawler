@@ -55,7 +55,7 @@ public class WebQueryEngine {
             System.err.println("Invalid Query");
             return new ArrayList<>();
         }
-        System.out.println(results[0].size());
+        //System.out.println(results[0].size());
 
         // TODO: Implement this!
         return results[0];

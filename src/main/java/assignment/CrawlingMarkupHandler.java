@@ -73,7 +73,7 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
     public void handleDocumentStart(long startTimeNanos, int line, int col) {
         // TODO: Implement this.
 
-        System.out.println("Start of document");
+        //System.out.println("Start of document");
     }
 
     /**
@@ -87,7 +87,7 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
     public void handleDocumentEnd(long endTimeNanos, long totalTimeNanos, int line, int col) {
         // TODO: Implement this.
         webIndex.add(currentPage);
-        System.out.println("End of document");
+        //("End of document");
     }
 
     /**
@@ -99,20 +99,20 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
     */
     public void handleOpenElement(String elementName, Map<String, String> attributes, int line, int col) {
         // TODO: Implement this.
-        System.out.println("Start element: " + elementName);
+        //System.out.println("Start element: " + elementName);
         URL toAdd;
         if(elementName.equals("script")||elementName.equals("style"))
             ignore = true;
         if (attributes != null) {
             for (String key : attributes.keySet()) {
-                System.out.println("Key: " + key + ", Value: " + attributes.get(key));
+                //System.out.println("Key: " + key + ", Value: " + attributes.get(key));
                 if(key.equals("href")) {
                     try {
                         toAdd = new URL(currentURL, attributes.get(key));
                         newLinks.add(toAdd);
                     } catch (MalformedURLException e) {
                         //System.err.println("Key: " + key + ", Value: " + attributes.get(key));
-                        System.err.println("HTML code is not valid");
+                        System.err.println("HTML code is not valid, ignoring and contiuning to parse...");
                     }
                 }
             }
@@ -129,7 +129,7 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
     public void handleCloseElement(String elementName, int line, int col) {
         // TODO: Implement this.
         ignore = false;
-        System.out.println("End element:   " + elementName);
+        //System.out.println("End element:   " + elementName);
     }
 
     /**
@@ -142,7 +142,7 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
     */
     public void handleText(char[] ch, int start, int length, int line, int col) {
         // TODO: Implement this.
-        System.out.print("Characters:    \"");
+        //System.out.print("Characters:    \"");
         String currentWord = "";
 
 
@@ -175,22 +175,22 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
                  */
                 case '\\':
 
-                    System.out.print("\\\\");
+                    //System.out.print("\\\\");
                     break;
                 case '"':
 
-                    System.out.print("\\\"");
+                    //System.out.print("\\\"");
                     break;
                 case '\n':
 
-                    System.out.print("\\n");;
+                    //System.out.print("\\n");;
                 case '\r':
 
-                    System.out.print("\\r");
+                    //System.out.print("\\r");
                     break;
                 case '\t':
 
-                    System.out.print("\\t");
+                    //System.out.print("\\t");
                     break;
                 default:
                     if(!Character.isLetterOrDigit(ch[i])) {
@@ -212,7 +212,7 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
                         currentWord += ch[i];
                     }
 
-                    System.out.print(ch[i]);
+                    //System.out.print(ch[i]);
                     break;
             }
         }
@@ -229,6 +229,6 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
             //webIndex.add(currentPage, currentWord, start+length);
         }
 
-        System.out.print("\"\n");
+        //System.out.print("\"\n");
     }
 }
