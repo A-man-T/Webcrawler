@@ -141,41 +141,22 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
 
         //considering the char[] with the appropriate word
         for(int i = start; i < start + length; i++) {
+             //building the next word to add to the page, character by character
 
-            // Ignoring raw whitespace
-            switch(ch[i]) {
-                case '\\':
-                    break;
-
-                case '"':
-                    break;
-
-                case '\n':
-                   break;
-
-                case '\r':
-                    break;
-
-                case '\t':
-                    break;
-
-                default:
-                    //building the next word to add to the page, character by character
-
-                    //if we hit a non-alphanumeric character
-                    if(!Character.isLetterOrDigit(ch[i])) {
-                        if(!currentWord.equals("")) {
-                            //if currentWord is not blank and we reached a non-alphanumeric character
-                            currentPage.addContents(currentWord);
-                        }
-                        currentWord = "";
-                    }
-                    else {
-                        currentWord += ch[i];
-                    }
-                    break;
+            //if we hit a non-alphanumeric character
+            if(!Character.isLetterOrDigit(ch[i])) {
+                if(!currentWord.equals("")) {
+                    //if currentWord is not blank and we reached a non-alphanumeric character
+                    currentPage.addContents(currentWord);
+                }
+                currentWord = "";
             }
-        }
+            else {
+                currentWord += ch[i];
+            }
+
+            }
+
         //Edge case where we end on an non-alphanumeric character
         if(!currentWord.equals("")){
             currentPage.addContents(currentWord);
