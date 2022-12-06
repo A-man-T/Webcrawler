@@ -62,6 +62,7 @@ public class WebQueryEngine {
             return results[0];
         }
         catch (Exception e){
+            System.err.println("Invalid Query");
             return new ArrayList<>();
         }
     }
