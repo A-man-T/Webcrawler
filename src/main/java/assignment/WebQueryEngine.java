@@ -55,7 +55,7 @@ public class WebQueryEngine {
             System.err.println("Invalid Query");
             return new ArrayList<>();
         }
-        //System.out.println(results[0].size());
+        System.out.println(results[0].size());
 
         // TODO: Implement this!
         try {
@@ -105,10 +105,34 @@ public class WebQueryEngine {
         }
         else if(t instanceof phraseToken){
             String[] phrase = t.toString().split(" ");
+
             for(Page page:p){
 
-                if(page.getWords().containsKey(phrase[0])&&page.getContentsString().contains(t.toString()))
-                    validPages[0].add(page);
+                if(page.getWords().containsKey(phrase[0])) {
+                    ArrayList<Integer> indicies = new ArrayList<>();
+                    for(int i: page.getWords().get(phrase[0]))
+                        indicies.add(i);
+                    ArrayList<Integer> goThrough = new ArrayList<>();
+                    for(int i:indicies)
+                        goThrough.add(i);
+                    int counter=0;
+                    for(String s:phrase){
+                        indicies.clear();
+                        for(int i:goThrough)
+                            indicies.add(i);
+                        for(int i:indicies){
+                            if(((i+counter)>=page.getContentsString().size())||!page.getContentsString().get(i+counter).equals(s))
+                                goThrough.remove(goThrough.indexOf(i));
+
+                        }
+                        counter++;
+                    }
+                    if(!goThrough.isEmpty())
+                        validPages[0].add(page);
+                    else{
+                        validPages[1].add(page);
+                    }
+                }
                 else{
                     validPages[1].add(page);
                 }

@@ -195,7 +195,7 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
                 default:
                     if(!Character.isLetterOrDigit(ch[i])) {
                         if(!currentWord.equals("")) {
-                            currentPage.addContents(currentWord,i);
+                            currentPage.addContents(currentWord);
                             //current working
                             /*
                             if(!madePage){
@@ -217,7 +217,7 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
             }
         }
         if(!currentWord.equals("")){
-            currentPage.addContents(currentWord,start+length);
+            currentPage.addContents(currentWord);
             //current working
             /*
             if(!madePage){

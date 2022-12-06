@@ -20,10 +20,13 @@ public class SanityChecks {
         Scanner answerScanner = new Scanner(new File("green_answers.txt"));
         System.out.println("Start Here:            ");
         ArrayList<Integer> results = new ArrayList<>();
+        assertEquals(wqe.query("\"leto kauler\"").size(),1);
         while(scan.hasNext()) {
             String query = scan.nextLine();
+            System.out.println("This is the query: "+query);
             try {
                 assertEquals(wqe.query(query).size(),answerScanner.nextInt());
+
                 //results.add(wqe.query(query).size());
             }
             catch(Exception e){

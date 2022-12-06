@@ -15,14 +15,14 @@ import java.util.Locale;
 public class Page implements Serializable {
     // The URL the page was located at.
     private URL url;
+    int location;
 
-
-    public String getContentsString() {
+    public ArrayList<String> getContentsString() {
         return contents;
     }
 
 
-    private String contents = "";
+    private ArrayList<String> contents = new ArrayList<>();
 
     public HashMap<String, ArrayList<Integer>> getWords() {
         return words;
@@ -34,17 +34,19 @@ public class Page implements Serializable {
 
 
 
-    public void addContents(String s, int i) {
+    public void addContents(String s) {
+
         s = s.toLowerCase();
         if(words.containsKey(s)){
-            words.get(s).add(i);
+            words.get(s).add(location);
         }
         else{
             words.put(s,new ArrayList<Integer>());
-            words.get(s).add(i);
+            words.get(s).add(location);
         }
-        contents += s;
-        contents += " ";
+        contents.add(s);
+        location++;
+
         return;
     }
 
@@ -55,6 +57,7 @@ public class Page implements Serializable {
     public Page(URL url) {
         this.url = url;
         this.words = new HashMap<>();
+        int location =0;
     }
 
     /**
