@@ -36,7 +36,7 @@ public class WebCrawler {
             }
         }
 
-        // Create a parser from the attoparser library, and our handler for markup.
+        // Create a parser from the attoparser library, our handler for markup, and our webIndex for storage.
         WebIndex webIndex = new WebIndex();
         ISimpleMarkupParser parser = new SimpleMarkupParser(ParseConfiguration.htmlConfiguration());
         CrawlingMarkupHandler handler = new CrawlingMarkupHandler();
@@ -44,15 +44,15 @@ public class WebCrawler {
 
 
         //make a visited hashset to ensure that we don't get into an infinite loop
-        HashSet<String> visited = new HashSet<String>();
+        HashSet<String> visited = new HashSet<>();
 
 
-
-        //make a counter to observe the number of sites we are crawling
+        //make a counter to observe the number of sites we are crawling for debugging purposes
         int i = 0;
         int skipped = 0;
+
         // Try to start crawling, adding new URLS as we see them.
-        // add the try catch in such a way that it keeps going even if it shows
+        // added a try catch in such a way that the program keeps running even if one URL fails.
         try {
             while (!remaining.isEmpty()) {
                 URL url = remaining.poll();
@@ -89,12 +89,6 @@ public class WebCrawler {
             e.printStackTrace();
             System.exit(1);
         }
-        int toomany =0;
-        for(Page p: webIndex.getPages())
-            if(p.getWords().keySet().size()==0)
-                toomany++;
-        //System.out.println(toomany);
-        //System.out.println(i);
-        //System.out.println(skipped);
+
     }
 }
