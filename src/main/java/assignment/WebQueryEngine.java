@@ -39,15 +39,22 @@ public class WebQueryEngine {
      * @param query A query expression.
      * @return A collection of web pages satisfying the query.
      */
-    public Collection<Page> query(String query) {
+    public Collection<Page> query(String query){
         //trim out the extra spaces in query
         //pass in the keyset of the webindex
         //make query lowercase
         query = query.trim().replaceAll("\\s+", " ").toLowerCase();
         tokenize(query);
-        ArrayList<Page>[] results = parseQuery(index.getPages());
-        while (!tokens.isEmpty())
-             results = parseQuery(results[0]);
+        ArrayList<Page>[] results = new ArrayList[2];
+        try {
+            results = parseQuery(index.getPages());
+            while (!tokens.isEmpty())
+                results = parseQuery(results[0]);
+        }
+        catch (Exception e){
+            System.err.println("Invalid Query");
+            return new ArrayList<>();
+        }
         System.out.println(results[0].size());
 
         // TODO: Implement this!

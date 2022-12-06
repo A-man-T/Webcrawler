@@ -13,7 +13,7 @@ public class SanityChecks {
 
 
     @Test
-    public void sanityChecks() throws ClassNotFoundException, IOException {
+    public void sanityGreenChecks() throws ClassNotFoundException, IOException {
         WebCrawler.main(new String[] {"file:/Users/amantewari/Turing/prog7/president96/index.html"});
         WebQueryEngine wqe = WebQueryEngine.fromIndex((WebIndex) Index.load("index.db"));
         Scanner scan = new Scanner(new File("test_queries_green.txt"));
