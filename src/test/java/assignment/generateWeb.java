@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Random;
 import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -87,6 +89,55 @@ public class generateWeb {
         assertEquals(wqe.query("(a|!a)").size(),pages);
 
     }
+
+    @Test
+    public void generateRandomTextOnlyWebGraph() throws ClassNotFoundException,IOException{
+        int i = 0;
+        String file = i+".txt";
+        BufferedWriter bw = null;
+        ArrayList<String> letters = new ArrayList<>();
+        ArrayList<Integer> occurances = new ArrayList<>();
+        int index;
+        while(i<numberOfFiles) {
+            try {
+                i++;
+                file = i+ ".txt";
+                bw = new BufferedWriter(new FileWriter("./testWeb/" + file));
+                bw.write("<html><head><title></title></head><body><p></p></body></html>");
+                bw.write("<a href=\""+(i+1)+".txt\"></a> ");
+                String random = generateRandomWord(1);
+                if(letters.contains(random)) {
+                    index = letters.indexOf(random);
+                    occurances.set(index, occurances.get(index));
+                }
+                else{
+                    letters.add(random);
+                    occurances.add(1);
+                }
+                bw.write(random);
+                bw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        WebCrawler.main(new String[] {"file:/Users/amantewari/Turing/prog7/testWeb/1.txt"});
+        WebQueryEngine wqe = WebQueryEngine.fromIndex((WebIndex) Index.load("index.db"));
+        for(int length =0;length<letters.size();length++) {
+            System.out.println("This is querey: "+letters.get(length));
+            assertEquals(wqe.query(letters.get(length)).size(), occurances.get(length));
+        }
+    }
+
+    public static String generateRandomWord(int length) {
+        String alphabet = "qwertyuiopasdfghjklzxzcvbnm0987654323456718990                                   ";
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < length; i++) {
+            sb.append(alphabet.charAt(random.nextInt(alphabet.length())));
+        }
+        return sb.toString();
+    }
+
 
 
 
