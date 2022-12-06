@@ -138,7 +138,7 @@ public class generateWeb {
         return sb.toString();
     }
 
-    @RepeatedTest(100)
+    @RepeatedTest(10)
     public void generateAndTestCycle() throws ClassNotFoundException,IOException {
         int i = 0;
         String file = i + ".txt";
