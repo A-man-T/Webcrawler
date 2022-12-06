@@ -1,6 +1,5 @@
 package assignment;
 import java.net.URL;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,7 +8,7 @@ import java.util.HashSet;
  * A web-index which efficiently stores information about pages. Serialization is done automatically
  * via the superclass "Index" and Java's Serializable interface.
  *
- * TODO: Implement this!
+ *
  */
 public class WebIndex extends Index {
     /**
@@ -17,28 +16,31 @@ public class WebIndex extends Index {
      */
     private static final long serialVersionUID = 1L;
 
-    // TODO: Implement all of this! You may choose your own data structures an internal APIs.
-    // You should not need to worry about serialization (just make any other data structures you use
-    // here also serializable - the Java standard library data structures already are, for example).
+    //The WebIndex simply stores an ArrayList of all the Page objects which are successfully parsed
+    private ArrayList<Page> pages;
 
 
-
-   //URL, words and position of words
-
+    public WebIndex(){
+        pages = new ArrayList<>();
+    }
 
     public ArrayList<Page> getPages() {
         return pages;
     }
 
-    private ArrayList<Page> pages;
-    public WebIndex(){
-        pages = new ArrayList<>();
+    public void add(Page p) {
+        pages.add(p);
     }
 
-    public void add(Page url) {
-        pages.add(url);
-    }
 
+
+
+
+}
+
+
+
+//old code
     /*
     HashMap<Page, HashMap<String, ArrayList<Integer>>> pages = new HashMap<>();
 
@@ -65,7 +67,3 @@ public class WebIndex extends Index {
     }
 
      */
-
-
-
-}

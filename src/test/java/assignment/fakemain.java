@@ -5,7 +5,8 @@ import java.util.Queue;
 
 public class fakemain {
 
-
+//had to comment out due to tokenize being private
+    /*
     public static void main(String[] args) {
         WebQueryEngine eng = new WebQueryEngine(new WebIndex());
         eng.tokenize("healo me");
@@ -13,6 +14,8 @@ public class fakemain {
         eng.tokenize("((wealth & fame    lol)  happiness)");
         Queue<Token> two = eng.tokens;
     }
+
+     */
 
 
 }

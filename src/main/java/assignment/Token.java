@@ -1,6 +1,8 @@
 package assignment;
 
+//Dummy Class used for processing queries each subclass overrides the toString, if necessary, to make processing easier.
 public class Token {
+
     public String word;
 
     public Token(String s){
@@ -8,8 +10,6 @@ public class Token {
     }
 
     public Token(){}
-
-
 
     @Override
     public String toString() {

@@ -7,28 +7,25 @@ import java.util.*;
  * A query engine which holds an underlying web index and can answer textual queries with a
  * collection of relevant pages.
  *
- * TODO: Implement this!
  */
 public class WebQueryEngine {
 
-    private WebIndex index;
-    public LinkedList<Token> tokens = new LinkedList<>();
-
-
+    private final WebIndex index;
+    private final LinkedList<Token> tokens;//stores the tokenized version of a query
 
 
     public WebQueryEngine(WebIndex index){
         this.index = index;
+        tokens = new LinkedList<>();
     }
 
     /**
      * Returns a WebQueryEngine that uses the given Index to construct answers to queries.
      *
      * @param index The WebIndex this WebQueryEngine should use.
-     * @return A WebQueryEngine ready to be queried.
+     * @return A new WebQueryEngine ready to be queried.
      */
     public static WebQueryEngine fromIndex(WebIndex index) {
-        // TODO: Implement this!
         WebQueryEngine newEngine = new WebQueryEngine(index);
         return newEngine;
     }
@@ -40,24 +37,26 @@ public class WebQueryEngine {
      * @return A collection of web pages satisfying the query.
      */
     public Collection<Page> query(String query){
-        //trim out the extra spaces in query
-        //pass in the keyset of the webindex
+        //trim and replace the extra spaces in query
         //make query lowercase
         query = query.trim().replaceAll("\\s+", " ").toLowerCase();
+
         tokenize(query);
-        ArrayList<Page>[] results = new ArrayList[2];
+        ArrayList<Page>[] results;
         try {
+            //pass in the pages from the webindex
             results = parseQuery(index.getPages());
             while (!tokens.isEmpty())
+                //repeatedly calls parse query and stores the pages that match the criteria.
                 results = parseQuery(results[0]);
         }
+        //issue with tokenizing/parsing a query (Invalid Query Handling)
         catch (Exception e){
             System.err.println("Invalid Query");
             return new ArrayList<>();
         }
-        //System.out.println(results[0].size());
 
-        // TODO: Implement this!
+        //catches issues with queries made by the GUI
         try {
             return results[0];
         }
@@ -67,30 +66,42 @@ public class WebQueryEngine {
         }
     }
 
+    //Parsing a query to find the Pages that meet our condition
     public ArrayList<Page>[] parseQuery(ArrayList<Page> p){
         ArrayList<Page>[] validPages = new ArrayList[2];
         Token t = tokens.poll();
+
+        //validPages[0]- stores all the Pages in p that meet our token conditions
+        //validPages[1]- stores the remaining of p that don't meet our condition
         validPages[0] = new ArrayList<>();
         validPages[1] = new ArrayList<>();
 
         if(t instanceof LeftParenToken){
+            //recursively calls parseQuery to build the valid pages for the first non-operator token
            ArrayList<Page>[] left = parseQuery(p);
            Token op = tokens.poll();
            if(op instanceof OrToken){
+               //if we hit an Or, everything that works for our previous correct pages works,
+               // and we search the incorrect array to sort the remaining Pages in their proper place
                validPages[0].addAll(left[0]);
                ArrayList<Page>[] right = parseQuery(left[1]);
                validPages[0].addAll(right[0]);
                validPages[1].addAll(right[1]);
            }
            else{
+               //if we hit an and, everything that works for our previous correct pages is added into our search space,
+               // and we search the search space to sort the Pages in their proper place
                validPages[1].addAll(left[1]);
                ArrayList<Page>[] right = parseQuery(left[0]);
                validPages[0].addAll(right[0]);
                validPages[1].addAll(right[1]);
            }
+           //should be a right parenthesis
            tokens.poll();
-
         }
+
+        //validPages[0] = every page that has the word
+        //validPages[1] = every page that doesn't have the word
         else if(t instanceof wordToken){
             for(Page page:p){
                 if(page.getWords().containsKey(t.toString()))
@@ -100,47 +111,49 @@ public class WebQueryEngine {
                 }
             }
 
-            //validPages[0] = //everything that has the word
-            //validPages[1] = //everything that doesn't have the word
+
         }
+        //validPages[0] = every page that has the phrase
+        //validPages[1] = every page that doesn't have the phrase
         else if(t instanceof phraseToken){
+            //split the phrase into words
             String[] phrase = t.toString().split(" ");
 
             for(Page page:p){
-
+                //check if it has the first word
                 if(page.getWords().containsKey(phrase[0])) {
-                    ArrayList<Integer> indicies = new ArrayList<>();
-                    for(int i: page.getWords().get(phrase[0]))
-                        indicies.add(i);
-                    ArrayList<Integer> goThrough = new ArrayList<>();
-                    for(int i:indicies)
-                        goThrough.add(i);
+                    //find the indicies of the first word
+                    ArrayList<Integer> indicies = new ArrayList<>(page.getWords().get(phrase[0]));
+                    ArrayList<Integer> goThrough = new ArrayList<>(indicies);
                     int counter=0;
                     for(String s:phrase){
                         indicies.clear();
-                        for(int i:goThrough)
-                            indicies.add(i);
+                        indicies.addAll(goThrough);
                         for(int i:indicies){
+                            //if the next word after the index of previous one doesn't match the next String in the phrase,
+                            // remove it from consideration
+                            //two different arraylists are using to prevent concurrent modification exception
                             if(((i+counter)>=page.getContentsString().size())||!page.getContentsString().get(i+counter).equals(s))
-                                goThrough.remove(goThrough.indexOf(i));
-
+                                goThrough.remove((Integer) i);
                         }
                         counter++;
                     }
+                    //if there are still indices left it is a page which contains the phrase
                     if(!goThrough.isEmpty())
                         validPages[0].add(page);
                     else{
                         validPages[1].add(page);
                     }
                 }
+                //if it doesn't have the first word it isn't a valid page
                 else{
                     validPages[1].add(page);
                 }
             }
-            //validPages[0] = //everything that has the phrase
-            //validPages[1] = //everything that doesn't have the phrase
         }
 
+        //By grammar rules we know the next token should be a word and we add it to the proper array
+        // depending on if it has the word or not
         else if(t instanceof notToken){
             t = tokens.poll();
             for(Page page:p){
@@ -152,6 +165,7 @@ public class WebQueryEngine {
             }
         }
 
+        //Error in parsing the query
         else{
             return null;
         }
@@ -163,8 +177,8 @@ public class WebQueryEngine {
 
 
 
-    //switch this to private later
-    public void tokenize(String stream) {
+    //Converts a query into tokens and populates the token array
+    private void tokenize(String stream) {
         tokens.clear();
         int i = 0;
 
@@ -172,8 +186,8 @@ public class WebQueryEngine {
             return;
 
         try {
-
             while (i < stream.length()) {
+                //white space doesn't need tokens
                 while (Character.isWhitespace(stream.charAt(i)))
                     i++;
                 char c = stream.charAt(i);
@@ -187,6 +201,7 @@ public class WebQueryEngine {
                     tokens.add(new RightParenToken());
                 else if (c == '!')
                     tokens.add(new notToken());
+                //phrase query
                 else if (c == '"') {
                     int start = i;
                     i++;
@@ -197,13 +212,12 @@ public class WebQueryEngine {
                     }
                     tokens.add(new phraseToken(stream.substring(start + 1, i).trim()));
                 } else {
+                    //we reach a text character
+                    /* read until blank or operator;
+                    rewind the stream one character if it was an operator
+                    return a Token that contains a reference to the word;
+                     */
                     int j = i;
-                /*
-                read until blank or operator;
-                rewind the stream one character if it was an operator
-                return a Token that contains a reference to the word;
-                 */
-
                     while (j + 1 < stream.length() && (stream.charAt(j + 1) != ')')) {
                         if (stream.charAt(j) == ' ')
                             if (Character.isLetterOrDigit(stream.charAt(j + 1)))
@@ -217,6 +231,7 @@ public class WebQueryEngine {
                             j++;
                         }
                     }
+                    //Edge Case Handling if we are at the end of the query
                     String trim;
                     try {
                         trim = stream.substring(i, j + 1).trim();
@@ -224,23 +239,12 @@ public class WebQueryEngine {
                         trim = stream.substring(i, j).trim();
                     }
 
-                /*
-                if(trim.contains("\"")) {
-                    trim = trim.replaceAll("\"", "");
-                    if (!(trim.isBlank()))
-                        tokens.add(new phraseToken(trim));
-                }
-
-                 */
-
-//removed the else if here
+                    //Implied And Case. add the tokens as words and query will treat it as an AndToken between them
                     if (trim.contains(" ")) {
-                        String temp[] = trim.split(" ");
+                        String[] temp = trim.split(" ");
                         for (String s : temp) {
                             tokens.add(new wordToken(s));
-                            //tokens.add(new AndToken());
                         }
-                        //tokens.removeLast();
                     } else {
                         tokens.add(new wordToken(trim));
                     }
@@ -249,13 +253,9 @@ public class WebQueryEngine {
                 i++;
             }
         }
+        //error in tokenizing
         catch (Exception e) {
             return;
         }
     }
-
-
-
-
-
 }

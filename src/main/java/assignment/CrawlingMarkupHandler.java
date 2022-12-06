@@ -8,17 +8,16 @@ import org.attoparser.simple.*;
  * A markup handler which is called by the Attoparser markup parser as it parses the input;
  * responsible for building the actual web index.
  *
- * TODO: Implement this!
+
  */
 public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
 
-    private ArrayList<URL> newLinks;
-    private URL currentURL;
-    private boolean ignore = false;
-
-    private boolean madePage;
-    private Page currentPage;
-    private WebIndex webIndex;
+    //The CrawlingMarkupHandler keeps track of the following fields
+    private ArrayList<URL> newLinks; //new URLs to pass to WebCrawler
+    private URL currentURL; //currentURL crawling
+    private boolean ignore = false; //ignore if encountered style or script tag
+    private Page currentPage; //Page Object made for current URL
+    private WebIndex webIndex; //webIndex to write to
 
     public CrawlingMarkupHandler() {
         newLinks = new ArrayList<>();
@@ -28,7 +27,6 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
     public void setCurrentURL(URL currentURL) {
         this.currentURL = currentURL;
         this.currentPage = new Page(currentURL);
-        madePage = false;
     }
 
     public void setWebIndex(WebIndex webIndex) {
@@ -71,9 +69,6 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
     * @param col             the column of the document where parsing starts
     */
     public void handleDocumentStart(long startTimeNanos, int line, int col) {
-        // TODO: Implement this.
-
-        //System.out.println("Start of document");
     }
 
     /**
@@ -84,10 +79,9 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
     * @param line            the line of the document where parsing ends
     * @param col             the column of the document where the parsing ends
     */
+    //if the parser successfully makes it to the end of a document add it to the WebIndex
     public void handleDocumentEnd(long endTimeNanos, long totalTimeNanos, int line, int col) {
-        // TODO: Implement this.
         webIndex.add(currentPage);
-        //("End of document");
     }
 
     /**
@@ -97,21 +91,18 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
     * @param line        the line in the document where this element appears
     * @param col         the column in the document where this element appears
     */
+    //Checks if the element has a script of style tag, or if it contains a hyperlink to a new page and process it accordingly
     public void handleOpenElement(String elementName, Map<String, String> attributes, int line, int col) {
-        // TODO: Implement this.
-        //System.out.println("Start element: " + elementName);
         URL toAdd;
         if(elementName.equals("script")||elementName.equals("style"))
             ignore = true;
         if (attributes != null) {
             for (String key : attributes.keySet()) {
-                //System.out.println("Key: " + key + ", Value: " + attributes.get(key));
                 if(key.equals("href")) {
                     try {
                         toAdd = new URL(currentURL, attributes.get(key));
                         newLinks.add(toAdd);
                     } catch (MalformedURLException e) {
-                        //System.err.println("Key: " + key + ", Value: " + attributes.get(key));
                         System.err.println("HTML code is not valid, ignoring and contiuning to parse...");
                     }
                 }
@@ -126,10 +117,9 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
     * @param line        the line in the document where this element appears.
     * @param col         the column in the document where this element appears.
     */
+    //Ensure that we only ignore elements with a script or style tag
     public void handleCloseElement(String elementName, int line, int col) {
-        // TODO: Implement this.
         ignore = false;
-        //System.out.println("End element:   " + elementName);
     }
 
     /**
@@ -141,94 +131,55 @@ public class CrawlingMarkupHandler extends AbstractSimpleMarkupHandler {
     * @param length  number of characters in ch
     */
     public void handleText(char[] ch, int start, int length, int line, int col) {
-        // TODO: Implement this.
-        //System.out.print("Characters:    \"");
+
+        //word to add to the page class
         String currentWord = "";
 
-
-
+        //If the text is associated with a script or style tag
         if(ignore){
             return;
         }
 
+        //considering the char[] with the appropriate word
         for(int i = start; i < start + length; i++) {
-            // Instead of printing raw whitespace, we're escaping it
 
-
-            /*
-            if(!Character.isLetterOrDigit(ch[i])&&!Character.isWhitespace(ch[i]))
-                continue;
-
-             */
-
-
-
-
-
+            // Ignoring raw whitespace
             switch(ch[i]) {
-                /*
-                case ' ':
-                    if(!currentWord.equals(""))
-
-                    currentWord = null;
-
-                 */
                 case '\\':
-
-                    //System.out.print("\\\\");
                     break;
+
                 case '"':
-
-                    //System.out.print("\\\"");
                     break;
+
                 case '\n':
+                   break;
 
-                    //System.out.print("\\n");;
                 case '\r':
-
-                    //System.out.print("\\r");
                     break;
+
                 case '\t':
-
-                    //System.out.print("\\t");
                     break;
+
                 default:
+                    //building the next word to add to the page, character by character
+
+                    //if we hit a non-alphanumeric character
                     if(!Character.isLetterOrDigit(ch[i])) {
                         if(!currentWord.equals("")) {
+                            //if currentWord is not blank and we reached a non-alphanumeric character
                             currentPage.addContents(currentWord);
-                            //current working
-                            /*
-                            if(!madePage){
-                                webIndex.add(currentPage);
-                                madePage = true;
-                            }
-
-                             */
-                            //webIndex.add(currentPage, currentWord, i);
                         }
                         currentWord = "";
                     }
                     else {
                         currentWord += ch[i];
                     }
-
-                    //System.out.print(ch[i]);
                     break;
             }
         }
+        //Edge case where we end on an non-alphanumeric character
         if(!currentWord.equals("")){
             currentPage.addContents(currentWord);
-            //current working
-            /*
-            if(!madePage){
-                webIndex.add(currentPage);
-                madePage = true;
-            }
-
-             */
-            //webIndex.add(currentPage, currentWord, start+length);
         }
-
-        //System.out.print("\"\n");
     }
 }
