@@ -14,7 +14,7 @@ public class WebQueryEngine {
     private final LinkedList<Token> tokens;//stores the tokenized version of a query
 
 
-    public WebQueryEngine(WebIndex index){
+    private WebQueryEngine(WebIndex index){
         this.index = index;
         tokens = new LinkedList<>();
     }
