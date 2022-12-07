@@ -22,7 +22,8 @@ public class WebCrawler {
         // Basic usage information
         if (args.length == 0) {
             System.err.println("Error: No URLs specified.");
-            System.exit(1);
+            return;
+            //System.exit(1);
         }
 
         // We'll throw all the args into a queue for processing.
@@ -87,7 +88,8 @@ public class WebCrawler {
             // Bad exception handling :(
             System.err.println("Error: Index generation failed!");
             e.printStackTrace();
-            System.exit(1);
+            //System.exit(1);
+            return;
         }
 
     }
