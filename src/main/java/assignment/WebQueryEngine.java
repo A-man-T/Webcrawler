@@ -37,6 +37,12 @@ public class WebQueryEngine {
      * @return A collection of web pages satisfying the query.
      */
     public Collection<Page> query(String query){
+
+        if(query==null) {
+            System.err.println("Invalid Query");
+            return new ArrayList<>();
+        }
+
         //trim and replace the extra spaces in query
         //make query lowercase
         query = query.trim().replaceAll("\\s+", " ").toLowerCase();

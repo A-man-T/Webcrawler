@@ -26,6 +26,7 @@ public class president96Tests{
         Scanner answerScanner = new Scanner(new File("green_answers.txt"));
         System.out.println("Start Here:            ");
         ArrayList<Integer> results = new ArrayList<>();
+        assertEquals(wqe.query(null).size(),0);
         assertEquals(wqe.query("\"leto kauler\"").size(),1);
         while(scan.hasNext()) {
             String query = scan.nextLine();
